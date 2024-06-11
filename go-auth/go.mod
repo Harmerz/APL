@@ -1,4 +1,4 @@
-module go-auth
+module github.com/Harmerz/APL/go-auth
 
 go 1.21.6
 

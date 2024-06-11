@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	pb "./tweet.proto"
+	pb "github.com/Harmerz/APL/proto" // Update with the correct module path
 
 	"google.golang.org/grpc"
 )
