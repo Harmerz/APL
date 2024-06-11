@@ -1,0 +1,41 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Output of the Go coverage tool
+*.out
+
+# Dependency directories (remove the comment below if you use Go modules)
+vendor/
+
+# IntelliJ IDEA
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Node modules (if you're using a mixed project with JavaScript/Node.js)
+node_modules/
+
+# Ignore generated protobuf files (if they are not needed in the repo)
+*.pb.go
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*.pid
+
+# Go specific
+/go.sum

@@ -3,6 +3,7 @@ module github.com/Harmerz/APL/go-auth
 go 1.21.6
 
 require (
+	github.com/Harmerz/APL v0.0.0-20240611203655-46b5d4054a16 // indirect
 	github.com/bytedance/sonic v1.11.8 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect

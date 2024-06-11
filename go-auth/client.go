@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	pb "github.com/Harmerz/APL/proto" // Update with the correct module path
+	pb "github.com/Harmerz/APL" // Update with the correct module path
 
 	"google.golang.org/grpc"
 )
