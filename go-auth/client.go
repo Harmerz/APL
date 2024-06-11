@@ -5,7 +5,7 @@ import (
 	"log"
 	"time"
 
-	pb "github.com/Harmerz/APL" // Update with the correct module path
+	pb "APL/go-auth/pb/inventory"
 
 	"google.golang.org/grpc"
 )
