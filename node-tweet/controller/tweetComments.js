@@ -1,5 +1,14 @@
+require('dotenv').config();
 const puppeteer = require('puppeteer');
+const mongoose = require('mongoose');
+const TweetResponseModel = require('../models/tweetComments');
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
+
+// MongoDB connection
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 async function TweetComment(URLTweet) {
   const browser = await puppeteer.launch({ headless: false });
@@ -9,12 +18,12 @@ async function TweetComment(URLTweet) {
   const cookies = [
     {
       name: 'auth_token',
-      value: '566bdb9f1861d155e0eb3f4173a3ae9c0938dd29',
+      value: process.env.AUTH_TOKEN,
       domain: '.twitter.com',
     },
     {
       name: 'auth_token',
-      value: '566bdb9f1861d155e0eb3f4173a3ae9c0938dd29',
+      value: process.env.AUTH_TOKEN,
       domain: '.x.com',
     },
   ];
@@ -25,9 +34,9 @@ async function TweetComment(URLTweet) {
       try {
         const responseBody = await response.json();
         const entries = responseBody.data.threaded_conversation_with_injections_v2.instructions[0].entries;
-        entries.forEach((entry) => {
+        entries.forEach(entry => {
           const tweetResult = entry?.content?.items?.[0]?.item?.itemContent?.tweet_results?.result;
-        
+
           if (tweetResult) {
             const user = tweetResult.core.user_results.result.legacy;
             const tweetLegacy = tweetResult.legacy;
@@ -47,11 +56,8 @@ async function TweetComment(URLTweet) {
               created_at: tweetLegacy.created_at,
               id_comment: tweetLegacy.conversation_id_str,
             };
-        
-            responses.push(
-             
-              tweetData
-            );
+
+            responses.push(tweetData);
           }
         });
       } catch (err) {
@@ -69,8 +75,23 @@ async function TweetComment(URLTweet) {
   } finally {
     await browser.close();
   }
-  console.log(responses)
-return responses
+
+  const tweetResponse = {
+    url: URLTweet,
+    type: 'comment',
+    data: responses,
+  };
+
+  try {
+    // Save to MongoDB
+    const tweetResponseDocument = new TweetResponseModel(tweetResponse);
+    await tweetResponseDocument.save();
+    console.log('Data saved to MongoDB:', tweetResponse);
+  } catch (error) {
+    console.error('Error saving to MongoDB:', error);
+  }
+
+  return responses;
 }
 
 module.exports = TweetComment;
