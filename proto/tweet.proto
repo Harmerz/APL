@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package tweet;
 
-option go_package = "/D:/Github/APL/proto;proto";
+option go_package = "github.com/Harmerz/APL/proto;proto";
 
 service TweetService {
   rpc GetTweetComment (TweetRequest) returns (TweetResponse);
