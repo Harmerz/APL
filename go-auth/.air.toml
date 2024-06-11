@@ -1,0 +1,11 @@
+# .air.toml
+
+[build]
+# You can set custom build and binary names here
+bin = "main"
+cmd = "dlv debug --headless --listen=:2345 --api-version=2 --accept-multiclient"
+include_ext = ["go"]
+exclude_dir = ["vendor", "node_modules", "public"]
+
+[log]
+time = true
