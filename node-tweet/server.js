@@ -2,7 +2,7 @@ const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
 const puppeteer = require('puppeteer');
 
-const PROTO_PATH = './tweet.proto';
+const PROTO_PATH = '../proto/tweet.proto';
 
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
