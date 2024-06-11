@@ -11,7 +11,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 });
 
 async function TweetComment(URLTweet) {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   const responses = [];
   const userTweet = '/TweetDetail?variables=';
