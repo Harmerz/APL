@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package tweet;
+
+option go_package = "/D:/Github/APL/proto;proto";
+
+service TweetService {
+  rpc GetTweetComment (TweetRequest) returns (TweetResponse);
+}
+
+message TweetRequest {
+  string url = 1;
+}
+
+message TweetResponse {
+  repeated TweetComment comments = 1;
+}
+
+message TweetComment {
+  string user = 1;
+  string views = 2;
+  string tweet = 3;
+}
