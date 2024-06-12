@@ -42,7 +42,7 @@ func main() {
 	}))
 
 	// Restricted tweetcomment endpoint
-	restricted.Post("/tweetcomment", func(c *fiber.Ctx) error {
+	restricted.Post("/tweetcomments", func(c *fiber.Ctx) error {
 		var request struct {
 			URL string `json:"url"`
 		}
@@ -51,7 +51,55 @@ func main() {
 			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
 		}
 
-		response, err := grpcClient.GetTweetComment(request.URL)
+		response, err := grpcClient.AddTweetComment(request.URL)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		return c.JSON(response)
+	})
+
+	// Restricted tweetcomment endpoint
+	restricted.Put("/tweetcomments", func(c *fiber.Ctx) error {
+		var request struct {
+			URL string `json:"url"`
+		}
+
+		if err := c.BodyParser(&request); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
+		}
+
+		response, err := grpcClient.UpdateTweetComment(request.URL)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		return c.JSON(response)
+	})
+
+	// Restricted tweetcomment endpoint
+	restricted.Delete("/tweetcomments", func(c *fiber.Ctx) error {
+		var request struct {
+			URL string `json:"url"`
+		}
+
+		if err := c.BodyParser(&request); err != nil {
+			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Cannot parse JSON"})
+		}
+
+		response, err := grpcClient.DeleteTweetComment(request.URL)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		}
+
+		return c.JSON(response)
+	})
+
+	// Restricted tweetcomment endpoint
+	restricted.Get("/tweetcomments", func(c *fiber.Ctx) error {
+
+		response, err := grpcClient.ReadAllComments()
+
 		if err != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 		}

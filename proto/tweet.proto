@@ -5,10 +5,21 @@ package tweet;
 option go_package = "pb/inventory";
 
 service TweetService {
-  rpc GetTweetComment (TweetRequest) returns (TweetResponse);
+  rpc AddTweetComment (TweetRequest) returns (TweetResponse);
+  rpc ReadAllComments (EmptyRequest) returns (AllCommentsResponse);
+  rpc UpdateTweetComment (UpdateRequest) returns (TweetResponse);
+  rpc DeleteTweetComment (DeleteRequest) returns (DeleteResponse);
 }
 
 message TweetRequest {
+  string url = 1;
+}
+
+message UpdateRequest {
+  string url = 1;
+}
+
+message DeleteRequest {
   string url = 1;
 }
 
@@ -35,4 +46,14 @@ message User {
   int32 followers_count = 5;
   int32 friends_count = 6;
   string url = 7;
+}
+
+message EmptyRequest {}
+
+message AllCommentsResponse {
+  repeated TweetResponse tweets = 1;
+}
+
+message DeleteResponse {
+  string message = 1;
 }

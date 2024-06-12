@@ -1,14 +1,6 @@
 require('dotenv').config();
 const puppeteer = require('puppeteer');
-const mongoose = require('mongoose');
-const TweetResponseModel = require('../models/tweetComments');
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
-
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 async function TweetComment(URLTweet) {
   const browser = await puppeteer.launch({ headless: true });
@@ -75,21 +67,7 @@ async function TweetComment(URLTweet) {
   } finally {
     await browser.close();
   }
-
-  const tweetResponse = {
-    url: URLTweet,
-    type: 'comment',
-    data: responses,
-  };
-
-  try {
-    // Save to MongoDB
-    const tweetResponseDocument = new TweetResponseModel(tweetResponse);
-    await tweetResponseDocument.save();
-    console.log('Data saved to MongoDB:', tweetResponse);
-  } catch (error) {
-    console.error('Error saving to MongoDB:', error);
-  }
+  console.log("Done Crawling", URLTweet)
 
   return responses;
 }
