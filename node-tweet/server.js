@@ -1,7 +1,6 @@
 require('dotenv').config();
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
-const mongoose = require('mongoose');
 const NodeCache = require('node-cache');
 const TweetComment = require('./controller/tweetComments');
 const TweetResponseModel = require('./models/tweetComments');
@@ -18,12 +17,6 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 
 const tweetProto = grpc.loadPackageDefinition(packageDefinition).tweet;
-
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
 
 // Initialize node-cache
 const cache = new NodeCache({ stdTTL: 600, checkperiod: 120 }); // Cache items expire after 600 seconds
@@ -257,4 +250,4 @@ function NodeGPRC() {
   });
 }
 
-exports.module = NodeGPRC
+module.exports = NodeGPRC;
